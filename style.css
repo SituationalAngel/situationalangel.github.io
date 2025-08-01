@@ -1,36 +1,196 @@
-/* Existing styles omitted for brevity - assume same as before with these additions */
-
-.scene[data-vignette="warm"]::before {
-  background: radial-gradient(ellipse at center, transparent 65%, rgba(100, 50, 0, 0.4));
-}
-.scene[data-vignette="cool"]::before {
-  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 50, 100, 0.4));
-}
-.scene[data-vignette="dark"]::before {
-  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.8));
+html, body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #111 0%, #222 100%);
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
 }
 
-/* Particles */
-.particles {
+.spotlight-layer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
   pointer-events: none;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.015) 0%, rgba(0,0,0,0.95) 70%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.03); }
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  transition: opacity 0.8s ease;
+  pointer-events: auto;
+}
+
+.title {
+  font-size: 3.5em;
+  font-weight: 900;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.2em;
+  opacity: 0;
+  animation: fadeIn 2s ease-out 1s forwards;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.2));
+}
+
+.letter {
+  display: inline-block;
+  animation-name: jitter1;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.letter.friend {
+  color: #ff5c5c;
+  animation-name: shimmer, jitter2;
+  animation-duration: 3s, 2.8s;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: alternate, normal;
+  animation-timing-function: ease-in-out, ease-in-out;
+}
+
+@keyframes jitter1 {
+  0% { transform: translate(0px, 0px); }
+  20% { transform: translate(-0.5px, 0.7px); }
+  40% { transform: translate(0.5px, -0.6px); }
+  60% { transform: translate(-0.4px, 0.3px); }
+  80% { transform: translate(0.3px, -0.5px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+@keyframes jitter2 {
+  0% { transform: translate(0px, 0px); }
+  25% { transform: translate(-0.6px, 0.5px); }
+  50% { transform: translate(0.6px, -0.4px); }
+  75% { transform: translate(-0.3px, 0.2px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+@keyframes shimmer {
+  0% { text-shadow: 0 0 4px rgba(255, 92, 92, 0.2); }
+  100% { text-shadow: 0 0 12px rgba(255, 92, 92, 0.5); }
+}
+
+.separator {
+  width: 120px;
+  height: 2px;
+  background: white;
+  margin: 30px auto 10px;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out 3s forwards;
+}
+
+.buttons {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out 3.5s forwards;
+}
+
+.buttons button {
+  background: white;
+  color: black;
+  border: none;
+  padding: 10px 30px;
+  margin: 10px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  letter-spacing: 1px;
+}
+
+.buttons button:hover {
+  background: #ff5c5c;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 92, 92, 0.5);
+}
+
+.endings {
+  margin-top: 20px;
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to bottom, #111, #1a1a1a);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  padding: 40px;
+  box-sizing: border-box;
+  transition: opacity 1s ease;
+}
+
+.scene.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.85));
   z-index: 1;
 }
-.particle {
-  position: absolute;
-  bottom: -10px;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  animation: floatUp linear infinite;
+
+.scene .text {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 30px;
+  max-width: 700px;
+  text-align: center;
+  line-height: 1.6em;
 }
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-110vh) scale(0.5); }
+
+.scene .choices {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 30px;
+}
+
+.scene .choices button {
+  background: white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.scene.visible {
+  opacity: 1;
+  pointer-events: all;
 }
