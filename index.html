@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Where is my friend</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="spotlight-layer" id="spotlight"></div>
+
+  <div class="container" id="menu">
+    <div class="title" id="title"></div>
+    <div class="separator"></div>
+    <div class="buttons">
+      <button onclick="startGame()">PLAY</button>
+      <button>CREDITS</button>
+    </div>
+    <div class="endings">Endings unlocked: 0/5</div>
+  </div>
+
+  <div class="scene vignette" id="scene">
+    <div class="text" id="scene-text"></div>
+    <div class="choices" id="choices"></div>
+  </div>
+
+  <audio id="menuMusic" src="bgm-menu.mp3" loop></audio>
+  <audio id="gameMusic" src="bgm-game.mp3" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>

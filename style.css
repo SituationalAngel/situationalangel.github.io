@@ -1,0 +1,36 @@
+/* Existing styles omitted for brevity - assume same as before with these additions */
+
+.scene[data-vignette="warm"]::before {
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(100, 50, 0, 0.4));
+}
+.scene[data-vignette="cool"]::before {
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 50, 100, 0.4));
+}
+.scene[data-vignette="dark"]::before {
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.8));
+}
+
+/* Particles */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.particle {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-110vh) scale(0.5); }
+}
